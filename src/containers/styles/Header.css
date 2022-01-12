@@ -1,0 +1,6 @@
+.Header-container{
+    display: grid;
+    grid-template-columns: 3em 1fr;
+    margin-bottom: .5em;
+    /* border: 2px solid rgb(153, 0, 255); */
+}

@@ -1,0 +1,33 @@
+.meteorology__container{
+    display: grid;
+    width: 90vw;
+    margin: auto;
+    margin-top: 1em;
+    padding: .3em;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4,1fr);
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-family: 'Roboto', sans-serif;
+}
+.gird-items{
+    margin-left: .6em;
+}
+
+.equinox-soltice{
+    /* border: solid red; */
+    grid-column: 1/span 2;
+    grid-row: 1/ span 2;
+    color: white;
+}
+.data-info__title{
+    font-size: .8em;
+    font-weight: 300;
+    color: rgb(255, 255, 255);
+}
+.data-info{
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+    font-weight: 400;
+}

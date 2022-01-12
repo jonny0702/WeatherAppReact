@@ -1,0 +1,27 @@
+.weatherStatus-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    width: 99vw;
+    margin-top: 1em;
+    /* border: 2px solid red; */
+    font-family:'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 3em;
+}
+.grid-items{
+    margin: .5em;
+}
+.weather-temperature{
+    padding-left:.26em;
+    font-size: 5rem;
+    color: white;
+}
+.weather-status{
+    font-weight: 300;
+    font-size: .5em;
+    text-align: center;
+    color: white;
+}
