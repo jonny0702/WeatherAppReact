@@ -4,60 +4,46 @@ import WeatherState from '../components/WeatherState';
 import Forecast from '../components/Forecast';
 import Meteorology from '../components/Meteorology';
 //containers
-import Header from '../containers/Header';
+import Header from './Header';
 //style
-import './App.css';
+import './styles/App.css';
 import '../components/styles/weatherImage.css';
 //Hooks
 import { useState, useEffect } from 'react';
-// redux
-import { connect } from 'react-redux';
-import {changeCoordinates} from '../actions/actions';
-// import { weatherForecast } from './actions/actions';
 //mui
 import { Button } from '@mui/material';
 import { grey } from '@mui/material/colors';
 //icons mui
 import WavesIcon from '@mui/icons-material/Waves';
-
-
-function Main(props) {
-  const {coordinates} = props
-  console.log(coordinates)
+function Main() {
   //API
-  const API_KEY = 'fb5b06c6b5435868cb173d77032e6846';
-  const API_WEATHER = `https://api.openweathermap.org/data/2.5/weather`;
-  const API_FORECAST = `https://api.openweathermap.org/data/2.5/onecall`;
+  const API_KEY = process.env.API_KEY;
+  const API_WEATHER = process.env.API_WEATHER;
+  const API_FORECAST = process.env.API_FORECAST;
   
   const [dataWeather, setDataWeather] = useState({});
   const [dataForecast, setDataForecast] = useState([]);
-
+  const [localAddress, setLocalAddress] = useState('');
+  const [lat, setLat] = useState(0)
+  const [lng, setLng] = useState(0)
+  
 
   const hasWeather = Object.values(dataWeather).length > 0;
 
-  useEffect(() => { 
-      getWeatherData()
-      getForecastData()
-      return {dataWeather, dataForecast}
-  },[]);    
 
-  // const handleDisplay = (event)=>{
-  //     setOpen(!open)
-  // }
-  //   //style logic 
-  // const styledRight = ()=>{
-  //   return{
-  //       right: open ? '0%' : '-100%'
-  //   }
-  // }
+const savePositionToState = (position) =>{
+  setLat(position.coords.latitude)
+  setLng(position.coords.longitude)
 
+}
 //Api Actual Weather
 const getWeatherData = async ()=>{
     try {
-      const responseWeather = await fetch(`${API_WEATHER}?lat=${coordinates.lat}&lon=${coordinates.lng}&units=metric&appid=${API_KEY}`);
+      await window.navigator.geolocation.getCurrentPosition(savePositionToState)
+      const responseWeather = await fetch(`${API_WEATHER}?lat=${lat}&lon=${lng}&units=metric&appid=${API_KEY}`);
       const data = await responseWeather.json();
       setDataWeather(data);
-      // console.log(dataWeather)
+      setLocalAddress(data.name);
       } catch (error) {
         console.error('API ERROR', error);
       }
@@ -65,18 +51,31 @@ const getWeatherData = async ()=>{
 // Api Forcast
 const getForecastData = async()=>{
       try {
-        const responseForecast = await fetch(`${API_FORECAST}?lat=${coordinates.lat}&lon=${coordinates.lng}&exclude=current,minutely,hourly,alerts&units=metric&appid=${API_KEY}`);
+        await window.navigator.geolocation.getCurrentPosition(savePositionToState)
+        const responseForecast = await fetch(`${API_FORECAST}?lat=${lat}&lon=${lng}&exclude=current,minutely,hourly,alerts&units=metric&appid=${API_KEY}`);
         const forecast = await responseForecast.json();
         setDataForecast(forecast.daily);
       } catch (error) {
         console.error(error);
       }
 }
-      
+  useEffect(() => { 
+    getWeatherData()
+    getForecastData()
+    return {dataWeather, dataForecast}
+  },[lat,lng]);
   return (
-    <div className="App-container">
-      <Header handleDisplay={handleDisplay} isOpen={open} />
+    <div className="App-container" >
+    {
+      hasWeather &&(
+        <div className='img-background'>
+          <img src={`https://source.unsplash.com/1920x1080/?${dataWeather.weather[0].main}`} className='background_photo'/>
+        </div>
+      )
+    }
+      <Header isOpen={open} address={localAddress}/>
       {
+//data Components
         <WeatherState>
           {hasWeather && (
             <>
@@ -107,17 +106,10 @@ const getForecastData = async()=>{
         weatherData={dataWeather}
       />
       <div className="footer">
-        <p>Los datos Proporcionados son parte de:</p>
+        <p>Los datos Proporcionados son parte de: OpenWeather</p>
       </div>
     </div>
   );
 }
-const MapStateToProps = (state) => {
-  return {
-    coordinates: state.coordinates,
-  };
-};
-const MapDispatchToProps = {
-  changeCoordinates,
-};
-export default connect(MapStateToProps, MapDispatchToProps)(Main);
+
+export default Main;

@@ -1,4 +1,6 @@
 import React from 'react';
+//Components
+import SunriseSunset from './SunriseSunset'
 
 //styles
 import './styles/Meteorology.css';
@@ -11,7 +13,8 @@ export default function Meteorology(props) {
       {hasWeatherMeteorology && (
         <>
           <div className="gird-items equinox-soltice">
-            <span>Equinox Solitce</span>
+            <span>Sunrise Soltice</span>
+            <SunriseSunset sunrise={weatherData.sys.sunrise} sunset={weatherData.sys.sunset} />
           </div>
           <div className="gird-items">
             <span className="data-info__title">Thermal sensation</span>

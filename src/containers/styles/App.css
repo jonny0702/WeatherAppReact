@@ -7,8 +7,20 @@
 .App-container{
     height: 100%;
     width: 100vw;
-    background: linear-gradient(360deg, #98A0A7 0%, #808A92 51.04%, #575E67 100%) ;
+    background: rgba(0, 0, 0, .5) ;
+    /* background-image: url(); */
     overflow-x: hidden;
+    z-index: 200;
+}
+.img-background{
+ position: fixed;
+ height: 100%;
+ margin: auto;
+ z-index: -100; 
+ overflow: hidden;
+}
+.background_photo{
+    object-fit: contain;
 }
 .footer{
     display: flex;

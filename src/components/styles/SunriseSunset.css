@@ -1,0 +1,9 @@
+.SunriseSunset-container{
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+.SunriseSunset_data-container{
+    display: flex;
+    justify-content: space-between;
+}

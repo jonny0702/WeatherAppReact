@@ -14,6 +14,7 @@
     grid-row-gap: .6em;
     /* margin: .3em; */
     justify-self: center;
+    z-index: 200;
 }
 .forecast-days__container{
     display: grid;
