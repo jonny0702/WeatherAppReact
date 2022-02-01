@@ -12,15 +12,18 @@
     font-family: 'Roboto', sans-serif;
     z-index: 200;
 }
+
 .gird-items{
     margin-left: .6em;
 }
 
-.equinox-soltice{
-    /* border: solid red; */
-    grid-column: 1/span 2;
-    grid-row: 1/ span 2;
+.Clock{
     color: white;
+}
+.SunriseSunset_data-container{
+    display: flex;
+    justify-content: space-between;
+    border: solid gold;
 }
 .data-info__title{
     font-size: .8em;

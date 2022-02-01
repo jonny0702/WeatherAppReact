@@ -39,7 +39,7 @@ const savePositionToState = (position) =>{
 //Api Actual Weather
 const getWeatherData = async ()=>{
     try {
-      await window.navigator.geolocation.getCurrentPosition(savePositionToState)
+      await window.navigator.geolocation.getCurrentPosition(savePositionToState, () => console.error(error))
       const responseWeather = await fetch(`${API_WEATHER}?lat=${lat}&lon=${lng}&units=metric&appid=${API_KEY}`);
       const data = await responseWeather.json();
       setDataWeather(data);
@@ -104,6 +104,7 @@ const getForecastData = async()=>{
       <Forecast forecastData={dataForecast} />
       <Meteorology
         weatherData={dataWeather}
+        uviData = {dataForecast}
       />
       <div className="footer">
         <p>Los datos Proporcionados son parte de: OpenWeather</p>

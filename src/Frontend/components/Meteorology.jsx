@@ -1,20 +1,25 @@
 import React from 'react';
 //Components
-import SunriseSunset from './SunriseSunset'
-
 //styles
 import './styles/Meteorology.css';
+import moment from 'moment';
 
 export default function Meteorology(props) {
-  const { weatherData } = props;
+  
+  const { weatherData, uviData } = props;
+
+  const hasUvi = Object.values(uviData).length > 0;  
   const hasWeatherMeteorology = Object.values(weatherData).length > 0;
+
   return (
     <div className="meteorology__container">
       {hasWeatherMeteorology && (
         <>
-          <div className="gird-items equinox-soltice">
-            <span>Sunrise Soltice</span>
-            <SunriseSunset sunrise={weatherData.sys.sunrise} sunset={weatherData.sys.sunset} />
+          <div className="gird-items Clock">
+            <span>Clock</span>
+            <div className='Clock-container'>
+              <span className='clock'>{moment().format('h:mm:ss a')}</span>
+            </div>
           </div>
           <div className="gird-items">
             <span className="data-info__title">Thermal sensation</span>
@@ -45,6 +50,15 @@ export default function Meteorology(props) {
             <span className="data-info__title">Wind speed</span>
             <br />
             <span className="data-info">{weatherData.wind.speed} Km/h</span>
+          </div>
+        </>
+      )}
+      {hasUvi && (
+        <>
+          <div className="gird-items">
+              <span className="data-info__title">UVI</span>
+              <br />
+              <span className="data-info">{uviData[0].uvi}</span>
           </div>
         </>
       )}
