@@ -104,6 +104,7 @@ const getForecastData = async()=>{
       <Forecast forecastData={dataForecast} />
       <Meteorology
         weatherData={dataWeather}
+        uviData={dataForecast}
       />
       <div className="footer">
         <p>Los datos Proporcionados son parte de: OpenWeather</p>

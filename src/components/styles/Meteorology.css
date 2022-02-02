@@ -15,13 +15,11 @@
 .gird-items{
     margin-left: .6em;
 }
-
-.equinox-soltice{
-    /* border: solid red; */
-    grid-column: 1/span 2;
-    grid-row: 1/ span 2;
+.Clock{
     color: white;
+
 }
+
 .data-info__title{
     font-size: .8em;
     font-weight: 300;
