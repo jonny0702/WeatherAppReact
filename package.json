@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server",
-    "build": "webpack --mode production",
+    "build": "node ./scripts/create-env.js && webpack --mode production --config webpack",
     "format": "prettier --write \"{*.js,src/**/*.{js,jsx}}\"",
     "lint": "eslint src/ --fix"
   },
