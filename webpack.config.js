@@ -53,7 +53,7 @@ module.exports = {
             filename: './index.html',
             minify: false
         }),
-        new Dotenv
+        new Dotenv()
     ]
 
 }
