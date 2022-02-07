@@ -1,18 +1,15 @@
 import React from "react";
 import ReactDOM  from "react-dom";
-import { Router } from "react-router";
-import {createBrowserHistory} from 'history'
+// import { Router } from "react-router";
+// import {createBrowserHistory} from 'history'
 //component
-import App from './Router/App'
-// import Main from './containers/Main.jsx';
+import Main from './containers/Main'
 
-const history = createBrowserHistory()
+// const history = createBrowserHistory()
 
-ReactDOM.render(
+ReactDOM.hydrate(
     <>
-        <Router history={history}>
-            <App />    
-        </Router>
+        <Main />    
     </>,
     document.getElementById('root')
 );

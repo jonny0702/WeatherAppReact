@@ -10,11 +10,11 @@ import { grey } from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add'
 
 export default function Header(props) {
-    const {handleDisplay, address} = props
+    const {address} = props
     
     return (
         <div className='Header-container'>
-            <IconButton aria-label='add' onClick={handleDisplay}>
+            <IconButton aria-label='add'>
                 <AddIcon
                     sx={{color:grey[50]}}
                 />
@@ -22,7 +22,7 @@ export default function Header(props) {
             <Location>
                 {
                     address && (
-                    <div className='Location-container' onClick={handleDisplay}>
+                    <div className='Location-container'>
                         <h2 className='location-title'>{address}</h2>
                     </div>
                     )
