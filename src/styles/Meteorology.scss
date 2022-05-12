@@ -1,3 +1,4 @@
+@import 'vars';
 .meteorology__container{
     display: grid;
     width: 90vw;
@@ -9,24 +10,21 @@
     border: none;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.5);
-    font-family: 'Roboto', sans-serif;
     z-index: 200;
 }
 .gird-items{
     margin-left: .6em;
-}
-.Clock{
     color: white;
-
 }
+
 
 .data-info__title{
-    font-size: .8em;
+    font-size: $middle-text-size;
     font-weight: 300;
     color: rgb(255, 255, 255);
 }
 .data-info{
     color: rgb(255, 255, 255);
-    font-size: 1.2em;
+    font-size: $mini-text-size;
     font-weight: 400;
 }

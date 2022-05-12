@@ -4,8 +4,10 @@ import WeatherState from '../components/WeatherState';
 import Forecast from '../components/Forecast';
 import Meteorology from '../components/Meteorology';
 //style
-import './styles/Main.css';
-import '../components/styles/weatherState.css';
+import '../styles/Main.scss';
+import '../styles/weatherState.scss';
+import '../styles/Meteorology.scss';
+import '../styles/Forcast.scss';
 //Hooks
 import { useState, useEffect } from 'react';
 //mui
@@ -99,7 +101,7 @@ function Main() {
               <div className="weather-ica">
                 <Button
                   variant="outlined"
-                  size="small"
+                  size="medium"
                   className="Button"
                   sx={{
                     color: grey[50],
@@ -108,7 +110,7 @@ function Main() {
                     border: 1,
                   }}
                 >
-                  <WavesIcon sx={{ color: grey[50] }} fontSize="small" />
+                  <WavesIcon sx={{ color: grey[50] }} fontSize="medium" />
                   {dataWeather.wind.deg} ICA
                 </Button>
               </div>
@@ -144,10 +146,10 @@ function Main() {
       <Meteorology>
         {hasWeather && (
           <>
-            <div className="gird-items Clock">
-              <span>Clock</span>
+            <div className="gird-items">
+              <span className="data-info__title">Clock</span>
               <br />
-              <span>{moment().format('h:mm:ss a')}</span>
+              <span className="data-info">{moment().format('h:mm:ss a')}</span>
             </div>
             <div className="gird-items">
               <span className="data-info__title">Thermal sensation</span>

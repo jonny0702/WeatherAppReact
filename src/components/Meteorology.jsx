@@ -1,8 +1,5 @@
-import React, { Children } from 'react';
-import moment from 'moment';
+import React from 'react';
 //styles
-import './styles/Meteorology.css';
-
 export default function Meteorology(props) {
   const { children } = props;
 

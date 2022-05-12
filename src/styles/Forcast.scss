@@ -1,9 +1,10 @@
+@import 'vars';
+
 .forecast-container{
     width: 95vw;
     margin: auto;
     margin-top: 1em;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.1em;
+    font-size: $middle-text-size;
     font-weight: 300;
     color: white;
     /* border: solid blue; */
@@ -27,5 +28,5 @@
 }
 .icon-weather{
     justify-items: center;
-    font-size: 1.3em;
+    font-size: 1.3rem;
 }
