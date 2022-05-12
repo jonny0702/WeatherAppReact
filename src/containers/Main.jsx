@@ -3,11 +3,9 @@ import React from 'react';
 import WeatherState from '../components/WeatherState';
 import Forecast from '../components/Forecast';
 import Meteorology from '../components/Meteorology';
-//containers
-import Header from './Header';
 //style
-import './styles/App.css';
-import '../components/styles/weatherImage.css';
+import './styles/Main.css';
+import '../components/styles/weatherState.css';
 //Hooks
 import { useState, useEffect } from 'react';
 //mui
@@ -84,13 +82,17 @@ function Main() {
           />
         </div>
       )}
-      <Header isOpen={open} address={localAddress} />
       {
         //data Components
         <WeatherState>
           {hasWeather && (
             <>
-              <h1 className="weather-temperature">{dataWeather.main.temp}ºC</h1>
+              <div className="location-container">
+                <h5 className="location-title">{localAddress}</h5>
+              </div>
+              <h1 className="weather-temperature">
+                {Math.round(dataWeather.main.temp)}ºC
+              </h1>
               <span className="weather-status">
                 {dataWeather.weather[0].description}
               </span>
