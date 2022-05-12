@@ -1,0 +1,44 @@
+@import 'vars';
+
+.weatherStatus-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    width: 99vw;
+    margin-top: 15rem;
+    font-family:'Roboto', sans-serif;
+    font-weight: 100;
+    color: white
+}
+.grid-items{
+    margin: .5em;
+}
+.weather-temperature{
+    padding-left:.26em;
+    font-size: $title-size;
+    font-weight: 300;
+    color: white;
+}
+.weather-status{
+    font-weight: 300;
+    font-size: $text-size;
+    text-align: center;
+    color: white;
+}
+.location-container{
+    justify-self: center;
+    align-self: center;
+    font-family: 'Roboto', sans-serif;
+};
+.location-title{
+    text-align: center;
+    font-size: $sub-title-size;
+    font-weight:400;
+}
+.weather-ica{
+    font-size: $middle-text-size;
+    margin-top: 1rem;
+    gap: 1rem
+}

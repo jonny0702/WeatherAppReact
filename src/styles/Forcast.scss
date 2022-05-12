@@ -1,0 +1,32 @@
+@import 'vars';
+
+.forecast-container{
+    width: 95vw;
+    margin: auto;
+    margin-top: 1em;
+    font-size: $middle-text-size;
+    font-weight: 300;
+    color: white;
+    /* border: solid blue; */
+}
+.forecast-list{
+    display: grid;
+    grid-template-columns: repeat(1fr);
+    grid-row-gap: .6em;
+    /* margin: .3em; */
+    justify-self: center;
+    z-index: 200;
+}
+.forecast-days__container{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    justify-items: stretch;
+}
+
+.forecast-temperature{
+    text-align: end;
+}
+.icon-weather{
+    justify-items: center;
+    font-size: 1.3rem;
+}

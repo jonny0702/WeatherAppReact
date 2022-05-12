@@ -1,0 +1,29 @@
+@import 'vars';
+
+.App-container{
+    width: 100vw;
+    background: rgba(0, 0, 0, .5) ;
+    overflow: hidden;
+    z-index: 200;
+}
+.img-background{
+ position: fixed;
+ height: 100%;
+ margin: auto;
+ z-index: -100; 
+ overflow: hidden;
+}
+.background_photo{
+    object-fit: contain;
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    font-family: $main-font;
+    font-weight: 300;
+    font-size: $mini-text-size;
+    color: rgb(255, 255, 255);
+}
+
