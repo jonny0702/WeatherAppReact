@@ -34,7 +34,12 @@ const ModelConatiner = (props) => {
   const { isOpen } = props;
 
   return (
-    <div className="Model__container">
+    <div
+      className="Model__container"
+      style={{
+        filter: `${isOpen ? 'blur(1)' : 'blur(0)'}`,
+      }}
+    >
       <Suspense fallback={null}>
         <Canvas
           camera={{
@@ -44,11 +49,8 @@ const ModelConatiner = (props) => {
             far: 1000,
             position: [8, 6, 10.2],
           }}
-          style={{
-            filter: `${isOpen ? 'blur(1)' : 'blur(0)'}`,
-          }}
         >
-          <directionalLight intensity={1} color={'#8F37FF'} />
+          <directionalLight intensity={1} />
           <ambientLight intensity={0.3} />
           <Animation />
           {/* <CameraHelper /> */}
