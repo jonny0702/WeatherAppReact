@@ -1,7 +1,62 @@
-import React from 'react';
+import React, { Suspense, useRef } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Box } from '@react-three/drei';
+import * as THREE from 'three';
+import Model from '../components/Building.js';
+const Controls = () => {
+  const {
+    camera,
+    gl: { domElement },
+  } = useThree();
+  return <OrbitControls args={[camera, domElement]} />;
+};
+const CameraHelper = () => {
+  const camera = new THREE.PerspectiveCamera(25, 100 / 100, 0.1, 100);
+  return (
+    <group position={[3, 2, 7]}>
+      <cameraHelper args={[camera]} />
+    </group>
+  );
+};
+const Animation = () => {
+  const myModel = useRef();
+  useFrame(({ clock }) => {
+    const animation = clock.getElapsedTime(500000);
+    myModel.current.rotation.y = animation;
+  });
+  return (
+    <mesh ref={myModel}>
+      <Model scale={0.5} position={[0, -0.5, 0]} />
+    </mesh>
+  );
+};
+const ModelConatiner = (props) => {
+  const { isOpen } = props;
 
-const ModelConatiner = () => {
-  return <div>Model</div>;
+  return (
+    <div className="Model__container">
+      <Suspense fallback={null}>
+        <Canvas
+          camera={{
+            fov: 20,
+            aspect: 100 / 100,
+            near: 0.1,
+            far: 1000,
+            position: [8, 6, 10.2],
+          }}
+          style={{
+            filter: `${isOpen ? 'blur(1)' : 'blur(0)'}`,
+          }}
+        >
+          <directionalLight intensity={1} color={'#8F37FF'} />
+          <ambientLight intensity={0.3} />
+          <Animation />
+          {/* <CameraHelper /> */}
+          <Controls />
+        </Canvas>
+      </Suspense>
+    </div>
+  );
 };
 
 export default ModelConatiner;

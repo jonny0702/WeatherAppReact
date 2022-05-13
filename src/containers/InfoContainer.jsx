@@ -2,12 +2,11 @@ import React from 'react';
 
 const InfoContainer = (props) => {
   const { isOpen, children } = props;
-  console.log(isOpen);
   return (
     <div
       className="infoContainer__container"
       style={{
-        transform: `translateY(${isOpen ? '-40%' : '55%'})`,
+        transform: `translateY(${isOpen ? '-80%' : '15%'})`,
         background: `${isOpen ? 'rgba(0,0,0,.5)' : 'none'}`,
       }}
     >

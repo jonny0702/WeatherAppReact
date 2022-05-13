@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 //component
 import WeatherState from '../components/WeatherState';
 import Forecast from '../components/Forecast';
@@ -11,6 +11,7 @@ import '../styles/weatherState.scss';
 import '../styles/Meteorology.scss';
 import '../styles/Forcast.scss';
 import '../styles/InfoContainer.scss';
+import '../styles/ModelContainer.scss';
 //Hooks
 import { useState, useEffect } from 'react';
 //mui
@@ -83,9 +84,11 @@ function Main() {
   useEffect(() => {
     getWeatherData();
     getForecastData();
-    return { dataWeather, dataForecast };
+    return () => {
+      dataWeather, dataForecast;
+    };
   }, [lat, lng]);
-  console.log(open);
+
   return (
     <div className="App-container">
       {hasWeather && (
@@ -134,7 +137,7 @@ function Main() {
           )}
         </WeatherState>
       }
-      <ModelConatiner></ModelConatiner>
+      <ModelConatiner isOpen={open} />
       <InfoContainer isOpen={open}>
         <div
           className="buttom__display--container"
