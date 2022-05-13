@@ -36,10 +36,9 @@ module.exports = {
     ],
   },
   devServer: {
-    static: path.join(__dirname, 'dist'),
-    port: 5000,
+    static: path.join(__dirname, 'public'),
+    port: 3000,
     open: true,
-    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
