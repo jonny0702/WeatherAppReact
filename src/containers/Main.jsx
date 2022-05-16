@@ -100,7 +100,7 @@ function Main() {
           }}
         >
           <img
-            src={`https://source.unsplash.com/1920x1080/?${dataWeather.weather[0].main}`}
+            src="https://i.pinimg.com/originals/2f/d5/06/2fd5064bdc6123d004153c6a1d3ea8f7.jpg"
             className="background_photo"
           />
         </div>
@@ -137,7 +137,14 @@ function Main() {
           )}
         </WeatherState>
       }
-      <ModelConatiner isOpen={open} />
+      <div
+        style={{
+          filter: `${open ? 'blur(3px)' : 'blur(0)'}`,
+          transition: 'all ease-in 1s',
+        }}
+      >
+        <ModelConatiner />
+      </div>
       <InfoContainer isOpen={open}>
         <div
           className="buttom__display--container"

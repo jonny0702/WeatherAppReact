@@ -2,7 +2,8 @@ import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Box } from '@react-three/drei';
 import * as THREE from 'three';
-import Model from '../components/Building.js';
+// import Model from '../components/Building.js';
+import HoseModel from '../components/HoseModel.js';
 const Controls = () => {
   const {
     camera,
@@ -21,12 +22,12 @@ const CameraHelper = () => {
 const Animation = () => {
   const myModel = useRef();
   useFrame(({ clock }) => {
-    const animation = clock.getElapsedTime(500000);
+    const animation = clock.getElapsedTime();
     myModel.current.rotation.y = animation;
   });
   return (
     <mesh ref={myModel}>
-      <Model scale={0.5} position={[0, -0.5, 0]} />
+      <HoseModel position={[0, -2, 0]} />
     </mesh>
   );
 };
@@ -47,7 +48,7 @@ const ModelConatiner = (props) => {
             aspect: 100 / 100,
             near: 0.1,
             far: 1000,
-            position: [8, 6, 10.2],
+            position: [8, 20, 85],
           }}
         >
           <directionalLight intensity={1} />
