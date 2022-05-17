@@ -2,31 +2,39 @@
 
 .forecast-container{
     width: 95vw;
+    height: 14rem;
     margin: auto;
     margin-top: 1em;
     font-size: $middle-text-size;
     font-weight: 300;
     color: white;
-    /* border: solid blue; */
+    border-radius: 20px;
+    // border: solid blue; 
 }
+
 .forecast-list{
-    display: grid;
-    grid-template-columns: repeat(1fr);
-    grid-row-gap: .6em;
-    /* margin: .3em; */
+    display: flex;
+    width: 100%;
+    gap: 1.6rem;
+    justify-content: start;
+    box-sizing: border-box;
     justify-self: center;
     z-index: 200;
+    // border: solid rgb(31, 185, 39); 
+    overflow: scroll;
 }
 .forecast-days__container{
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    justify-items: stretch;
+    grid-template-rows: repeat(3, .5fr);
+    justify-items: center;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.25), 
+                inset 1px 1px 0px rgba(255, 255, 255, 0.25);;
+    background-color:rgba(255, 255, 255, 0.5);
 }
 
 .forecast-temperature{
+    justify-self: center;
     text-align: end;
-}
-.icon-weather{
-    justify-items: center;
-    font-size: 1.3rem;
 }

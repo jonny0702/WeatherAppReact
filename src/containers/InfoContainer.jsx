@@ -6,7 +6,7 @@ const InfoContainer = (props) => {
     <div
       className="infoContainer__container"
       style={{
-        transform: `translateY(${isOpen ? '-98%' : '-3.5%'})`,
+        transform: `translateY(${isOpen ? '-98%' : '-10%'})`,
         background: `${isOpen ? 'rgba(0,0,0,.5)' : 'none'}`,
       }}
     >
