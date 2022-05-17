@@ -88,7 +88,7 @@ function Main() {
       dataWeather, dataForecast;
     };
   }, [lat, lng]);
-
+  // console.log(dataForecast);
   return (
     <div className="App-container">
       {hasWeather && (
@@ -170,18 +170,17 @@ function Main() {
               {dataForecast.map((forecast) => {
                 return (
                   <div className="forecast-days__container" key={forecast.dt}>
+                    <span className="forecast-day">
+                      {moment.unix(forecast.dt).format('ddd')}
+                    </span>
                     <div className="img-container">
                       <img
                         src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
                         alt={forecast.weather[0].description}
                       />
                     </div>
-                    <span className="forecast-day">
-                      {moment.unix(forecast.dt).format('dddd')}.
-                      {forecast.weather[0].description}
-                    </span>
                     <span className="forecast-temperature">
-                      {forecast.temp.max}/{forecast.temp.min}
+                      {Math.round(forecast.temp.day)}°C
                     </span>
                   </div>
                 );

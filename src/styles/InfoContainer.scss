@@ -6,6 +6,7 @@
     width: 100vw;
     z-index: 400;
     transition: all linear .8s;
+    overflow-y: scroll;
 }
 .buttom__display--container{
     display: flex;

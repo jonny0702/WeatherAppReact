@@ -20,13 +20,13 @@ const CameraHelper = () => {
   );
 };
 const Animation = () => {
-  const myModel = useRef();
-  useFrame(({ clock }) => {
-    const animation = clock.getElapsedTime();
-    myModel.current.rotation.y = animation;
-  });
+  // const myModel = useRef();
+  // useFrame(({ clock }) => {
+  //   const animation = clock.getElapsedTime();
+  //   myModel.current.rotation.y = animation;
+  // });
   return (
-    <mesh ref={myModel}>
+    <mesh>
       <HoseModel position={[0, -2, 0]} />
     </mesh>
   );
