@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 //component
 import WeatherState from '../components/WeatherState';
 import Forecast from '../components/Forecast';
 import Meteorology from '../components/Meteorology';
 import InfoContainer from './InfoContainer';
 import ModelConatiner from './ModelConatiner';
+import MeteorologyItems from '../components/MeteorologyItems';
 //style
 import '../styles/Main.scss';
 import '../styles/weatherState.scss';
@@ -17,30 +18,83 @@ import { useState, useEffect } from 'react';
 //mui
 import { Button } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
+import { teal } from '@mui/material/colors';
+import { amber } from '@mui/material/colors';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 //icons mui
 import WavesIcon from '@mui/icons-material/Waves';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import UmbrellaIcon from '@mui/icons-material/Umbrella';
+import AirIcon from '@mui/icons-material/Air';
+import SpeedIcon from '@mui/icons-material/Speed';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ThermostatIcon from '@mui/icons-material/Thermostat';
+import WaterIcon from '@mui/icons-material/Water';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 //dependecies
 import moment from 'moment';
+// import { a } from '@react-spring/web';
 // import { useDrag } from '@use-gesture/react';
 // import { a, useSpring, config } from '@react-spring/web';
 
-function Main() {
+export default function Main() {
   //API
   const API_KEY = process.env.API_KEY;
   const API_WEATHER = process.env.API_WEATHER;
   const API_FORECAST = process.env.API_FORECAST;
+  const API_AIR = process.env.API_AIR;
 
+  //Colors Mui
+  const theme = createTheme({
+    palette: {
+      good: { main: teal[500] },
+      fair: { main: amber[500] },
+      moderate: { main: amber[600] },
+      poor: { main: red[400] },
+      veryPoor: { main: red[700] },
+    },
+  });
+  //States
   const [dataWeather, setDataWeather] = useState({});
   const [dataForecast, setDataForecast] = useState([]);
   const [localAddress, setLocalAddress] = useState('');
   const [open, setOpen] = useState(false);
+  const [AQI, setAQI] = useState(0);
+  const [progress, setProgress] = useState({
+    percentage: 0,
+    color: 'good',
+    status: 'Low Healt Risk',
+  });
+  const [uviStat, setUviStat] = useState({
+    progress: 0,
+    color: 'good',
+    status: 'Low',
+  });
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
+  //-------//
 
   const hasWeather = Object.values(dataWeather).length > 0;
   const hasForecast = Object.values(dataForecast).length > 0;
+  const hasAqi = AQI != 0;
+  //Heat Stress Formula
+  let op = 0;
+  const THI = (temp, rh) => {
+    op = 0.8 * temp + rh * (temp - 14.4) + 46.4;
+    if (72 >= op && op <= 79)
+      return `THI= ${parseInt(op)} so the Heat Stress is Mild`;
+    if (80 >= op && op <= 89)
+      return `THI= ${parseInt(op)} so the Heat Stress is Moderate`;
+    if (90 >= op)
+      return `THI= ${parseInt(
+        op
+      )} so the Heat Stress is Severe You Are Dead XD`;
+  };
 
+  //---//
   const savePositionToState = (position) => {
     setLat(position.coords.latitude);
     setLng(position.coords.longitude);
@@ -76,19 +130,112 @@ function Main() {
       console.error(error);
     }
   };
+  //Api pollution
+  const getAirPolutionApi = async () => {
+    try {
+      await window.navigator.geolocation.getCurrentPosition(
+        savePositionToState
+      );
+      const responseAirApi = await fetch(`
+        ${API_AIR}?lat=${lat}&lon=${lng}&appid=${API_KEY}
+      `);
+      const AQI = await responseAirApi.json();
+      setAQI(AQI.list[0].main.aqi);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleOpen = () => {
     setOpen(!open);
+  };
+  //Hooks Later
+  const handleProgressAir = (Aqi) => {
+    switch (Aqi) {
+      case 1:
+        setProgress({ ...progress, percentage: 20 });
+        break;
+      case 2:
+        setProgress({
+          ...progress,
+          percentage: 40,
+          color: 'fair',
+          status: 'Moderate Healt Risk',
+        });
+        break;
+      case 3:
+        setProgress({
+          ...progress,
+          percentage: 60,
+          color: 'moderate',
+        });
+        break;
+      case 4:
+        setProgress({
+          ...progress,
+          percentage: 80,
+          color: 'poor',
+          status: 'High Healt Risk',
+        });
+        break;
+      case 5:
+        setProgress({
+          ...progress,
+          percentage: 100,
+          color: 'veryPoor',
+          status: 'Very High Healt Risk',
+        });
+        break;
+    }
+  };
+  const handleUviStatus = (uvi) => {
+    if (uvi <= 2) return setUviStat({ ...uviStat, progress: 20 });
+    if (3 <= uvi && uvi <= 5)
+      return setUviStat({
+        ...uviStat,
+        progress: 40,
+        color: 'fair',
+        status: 'Moderate',
+      });
+    if (6 <= uvi && uvi <= 8)
+      return setUviStat({
+        ...uviStat,
+        progress: 60,
+        color: 'moderate',
+        status: 'High',
+      });
+    if (8 <= uvi && uvi <= 10)
+      return setUviStat({
+        ...uviStat,
+        progress: 80,
+        color: 'poor',
+        status: 'Very High',
+      });
+    if (11 >= uvi)
+      return setUviStat({
+        ...uviStat,
+        progress: 100,
+        color: 'veryPoor',
+        status: 'Extreme',
+      });
   };
 
   useEffect(() => {
     getWeatherData();
     getForecastData();
+    getAirPolutionApi();
     return () => {
       dataWeather, dataForecast;
     };
   }, [lat, lng]);
-  // console.log(dataForecast);
+
+  useEffect(() => {
+    handleProgressAir(AQI);
+    hasForecast && handleUviStatus(Math.round(dataForecast[0].uvi));
+    return () => {
+      handleProgressAir, handleUviStatus;
+    };
+  }, [AQI, dataForecast]);
   return (
     <div className="App-container">
       {hasWeather && (
@@ -100,14 +247,14 @@ function Main() {
           }}
         >
           <img
-            src="https://i.pinimg.com/originals/2f/d5/06/2fd5064bdc6123d004153c6a1d3ea8f7.jpg"
+            src="https://www.nlspacecampus.eu/cache/3/1920x1080/mob-shutterstock-481251031-20210610135721_1920x1080.jpg"
             className="background_photo"
           />
         </div>
       )}
       {
         <WeatherState isOpen={open}>
-          {hasWeather && (
+          {hasWeather && hasAqi && (
             <>
               <div className="location-container">
                 <h5 className="location-title">{localAddress}</h5>
@@ -119,19 +266,8 @@ function Main() {
                 {dataWeather.weather[0].description}
               </span>
               <div className="weather-ica">
-                <Button
-                  size="medium"
-                  className="Button"
-                  sx={{
-                    color: grey[50],
-                    borderColor: grey[50],
-                    borderRadius: 3,
-                    border: 1,
-                  }}
-                >
-                  <WavesIcon sx={{ color: grey[50] }} fontSize="medium" />
-                  {dataWeather.wind.deg} ICA
-                </Button>
+                <WavesIcon sx={{ color: grey[50] }} fontSize="large" />
+                {AQI} AQI
               </div>
             </>
           )}
@@ -188,67 +324,130 @@ function Main() {
             </ul>
           )}
         </Forecast>
-        <Meteorology>
-          {hasWeather && (
-            <>
-              <div className="gird-items">
-                <span className="data-info__title">Clock</span>
-                <br />
-                <span className="data-info">
-                  {moment().format('h:mm:ss a')}
-                </span>
-              </div>
-              <div className="gird-items">
-                <span className="data-info__title">Thermal sensation</span>
-                <br />
-                <span className="data-info">
-                  {dataWeather.main.feels_like}ºC
-                </span>
-              </div>
-              <div className="gird-items">
-                <span className="data-info__title">max temperature</span>
-                <br />
-                <span className="data-info">{dataWeather.main.temp_max}ºC</span>
-              </div>
-              <div className="gird-items">
-                <span className="data-info__title">min temperature</span>
-                <br />
-                <span className="data-info">{dataWeather.main.temp_min}ºC</span>
-              </div>
-              <div className="gird-items">
-                <span className="data-info__title">Humidity</span>
-                <br />
-                <span className="data-info">{dataWeather.main.humidity}%</span>
-              </div>
-              <div className="gird-items">
-                <span className="data-info__title">Presure</span>
-                <br />
-                <span className="data-info">
-                  {dataWeather.main.pressure} mbar
-                </span>
-              </div>
-              <div className="gird-items">
-                <span className="data-info__title">Wind speed</span>
-                <br />
-                <span className="data-info">{dataWeather.wind.speed} Km/h</span>
-              </div>
-              {hasForecast && (
-                <div className="gird-items">
-                  <span className="data-info__title">UVI</span>
-                  <br />
-                  <span className="data-info">{dataForecast[0].uvi}</span>
-                </div>
-              )}
-            </>
-          )}
-        </Meteorology>
+        <Meteorology
+          renderCards={() =>
+            hasWeather &&
+            hasForecast && (
+              <>
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <WavesIcon sx={{ color: grey[700] }} fontSize="medium" />
+                  )}
+                  title="Air Quality"
+                  info={`${AQI}-${progress.status}`}
+                  AqiCard
+                  renderStatusBar={() => (
+                    <>
+                      <Box>
+                        <ThemeProvider theme={theme}>
+                          <LinearProgress
+                            color={progress.color}
+                            variant="determinate"
+                            value={progress.percentage}
+                          />
+                        </ThemeProvider>
+                      </Box>
+                    </>
+                  )}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <WbSunnyIcon sx={{ color: grey[700] }} fontSize="medium" />
+                  )}
+                  title="UVI"
+                  info={`${Math.round(dataForecast[0].uvi)} ${uviStat.status}`}
+                  AqiCard
+                  renderStatusBar={() => (
+                    <>
+                      <Box>
+                        <ThemeProvider theme={theme}>
+                          <LinearProgress
+                            color={uviStat.color}
+                            variant="determinate"
+                            value={uviStat.progress}
+                          />
+                        </ThemeProvider>
+                      </Box>
+                    </>
+                  )}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <UmbrellaIcon sx={{ color: grey[700] }} fontSize="medium" />
+                  )}
+                  title="Rainfall"
+                  info={`${dataForecast[0].rain} mm in last hour`}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <ThermostatIcon
+                      sx={{ color: grey[700] }}
+                      fontSize="medium"
+                    />
+                  )}
+                  title="Thermal Sensation"
+                  info={`${Math.round(dataWeather.main.feels_like)} °C`}
+                  description={`${
+                    dataWeather.main.temp < dataWeather.main.feels_like
+                      ? 'More warm than the actual temperature'
+                      : 'More cold than the actual temperature'
+                  }`}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <VisibilityIcon
+                      sx={{ color: grey[700] }}
+                      fontSize="medium"
+                    />
+                  )}
+                  title="Visibility"
+                  info={`${dataWeather.visibility / 1000} Km`}
+                  description={`
+                    ${
+                      dataWeather.visibility / 1000 <= 4
+                        ? 'Haze visibility'
+                        : 'Clear visibility'
+                    }
+                  `}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <WaterIcon sx={{ color: grey[700] }} fontSize="medium" />
+                  )}
+                  title="Humiditiy"
+                  info={`${dataWeather.main.humidity}%`}
+                  description={`
+                    ${THI(
+                      Math.round(dataWeather.main.temp),
+                      dataWeather.main.humidity / 100
+                    )}
+                  `}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <SpeedIcon sx={{ color: grey[700] }} fontSize="medium" />
+                  )}
+                  title="Presure"
+                  info={`${dataWeather.main.pressure} mbar`}
+                  description={`${
+                    dataWeather.main.pressure <= 300 &&
+                    dataWeather.main.pressure <= 500
+                      ? 'The Atmospheric pressure are low, you are away to the coast'
+                      : 'The Atmospheric pressure are high, you are close to the coast '
+                  }`}
+                />
+                <MeteorologyItems
+                  renderIcon={() => (
+                    <AirIcon sx={{ color: grey[700] }} fontSize="medium" />
+                  )}
+                  title="Wind Speed"
+                  info={`${dataWeather.wind.speed} Km`}
+                />
+              </>
+            )
+          }
+        />
       </InfoContainer>
-
-      {/* <div className="footer">
-        <p>Los datos Proporcionados son parte de: OpenWeather</p>
-      </div> */}
     </div>
   );
 }
-
-export default Main;

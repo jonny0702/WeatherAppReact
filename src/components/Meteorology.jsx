@@ -1,7 +1,9 @@
 import React from 'react';
 //styles
 export default function Meteorology(props) {
-  const { children } = props;
+  const { renderCards } = props;
 
-  return <div className="meteorology__container">{children}</div>;
+  return (
+    <div className="meteorology__container">{renderCards && renderCards()}</div>
+  );
 }
