@@ -39,7 +39,15 @@
     font-weight:400;
 }
 .weather-ica{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 9rem;
+    height: 3rem;
+    margin-top: 1rem;
+    gap: .5rem;
     font-size: $middle-text-size;
     margin-top: 1rem;
-    gap: 1rem
+    border: .5px solid white;
+    border-radius: 10px
 }
