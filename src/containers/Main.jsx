@@ -355,7 +355,7 @@ export default function Main() {
                     <WbSunnyIcon sx={{ color: grey[700] }} fontSize="medium" />
                   )}
                   title="UVI"
-                  info={`${Math.round(dataForecast[0].uvi)} ${uviStat.status}`}
+                  info={`${parseInt(dataForecast[0].uvi)} ${uviStat.status}`}
                   AqiCard
                   renderStatusBar={() => (
                     <>
