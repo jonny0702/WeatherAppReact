@@ -20,7 +20,6 @@
     box-sizing: border-box;
     justify-self: center;
     z-index: 200;
-    // border: solid rgb(31, 185, 39); 
     overflow: scroll;
 }
 .forecast-days__container{
@@ -37,4 +36,15 @@
 .forecast-temperature{
     justify-self: center;
     text-align: end;
+}
+//Tablet
+@media (min-width: 514px){
+    .forecast-days__container{
+        width: 40rem;
+    }
+}
+@media (min-width: 724px){
+    .forecast-days__container{
+        width: 50rem;
+    }
 }

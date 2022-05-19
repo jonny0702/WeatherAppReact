@@ -5,8 +5,9 @@ const MeteorologyItems = (props) => {
     props;
   return (
     <div
-      className="MetorolgyItems__card"
-      style={AqiCard ? { width: '90%' } : { width: '16rem' }}
+      className={`MetorolgyItems__card ${
+        AqiCard && 'MetorolgyItems__card--aqi'
+      }`}
     >
       <div className="data-info__container">
         <div>
@@ -19,7 +20,7 @@ const MeteorologyItems = (props) => {
             <span className="data-description">{description}</span>
           </>
         )}
-        {AqiCard && renderStatusBar && renderStatusBar()}
+        {renderStatusBar && renderStatusBar()}
       </div>
     </div>
   );

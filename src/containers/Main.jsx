@@ -10,7 +10,7 @@ import MeteorologyItems from '../components/MeteorologyItems';
 import '../styles/Main.scss';
 import '../styles/weatherState.scss';
 import '../styles/Meteorology.scss';
-import '../styles/Forcast.scss';
+import '../styles/Forecast.scss';
 import '../styles/InfoContainer.scss';
 import '../styles/ModelContainer.scss';
 //Hooks
@@ -196,7 +196,6 @@ export default function Main() {
           onClick={() => handleOpen()}
         >
           <Button
-            // variant="outlined"
             size="medium"
             className="Button"
             sx={{
@@ -206,7 +205,14 @@ export default function Main() {
               border: 1,
             }}
           >
-            <ExpandLessIcon sx={{ color: grey[50] }} fontSize="large" />
+            <ExpandLessIcon
+              sx={{ color: grey[50] }}
+              fontSize="large"
+              style={{
+                transform: `${open ? 'rotate(180deg)' : 'rotate(0)'}`,
+                transition: 'all 1s',
+              }}
+            />
           </Button>
         </div>
         <Forecast>
@@ -265,7 +271,6 @@ export default function Main() {
                   )}
                   title="UVI"
                   info={`${parseInt(uvi)} ${uviStat.status}`}
-                  AqiCard
                   renderStatusBar={() => (
                     <>
                       <Box>
