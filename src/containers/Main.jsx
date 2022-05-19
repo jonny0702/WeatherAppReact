@@ -211,7 +211,7 @@ export default function Main() {
         color: 'poor',
         status: 'Very High',
       });
-    if (11 >= uvi)
+    if (uvi >= 11)
       return setUviStat({
         ...uviStat,
         progress: 100,
