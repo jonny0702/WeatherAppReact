@@ -15,6 +15,9 @@ import '../styles/InfoContainer.scss';
 import '../styles/ModelContainer.scss';
 //Hooks
 import { useState, useEffect } from 'react';
+import useTHI from '../hooks/useThi';
+import useProgressAir from '../hooks/useProgressAir';
+import useUviStatus from '../hooks/useUviStatus';
 //mui
 import { Button } from '@mui/material';
 import { grey } from '@mui/material/colors';
@@ -64,36 +67,13 @@ export default function Main() {
   const [localAddress, setLocalAddress] = useState('');
   const [open, setOpen] = useState(false);
   const [AQI, setAQI] = useState(0);
-  const [progress, setProgress] = useState({
-    percentage: 0,
-    color: 'good',
-    status: 'Low Healt Risk',
-  });
-  const [uviStat, setUviStat] = useState({
-    progress: 0,
-    color: 'good',
-    status: 'Low',
-  });
+
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   //-------//
-
   const hasWeather = Object.values(dataWeather).length > 0;
   const hasForecast = Object.values(dataForecast).length > 0;
   const hasAqi = AQI != 0;
-  //Heat Stress Formula
-  let op = 0;
-  const THI = (temp, rh) => {
-    op = 0.8 * temp + rh * (temp - 14.4) + 46.4;
-    if (72 >= op && op <= 79)
-      return `THI= ${parseInt(op)} so the Heat Stress is Mild`;
-    if (80 >= op && op <= 89)
-      return `THI= ${parseInt(op)} so the Heat Stress is Moderate`;
-    if (90 >= op)
-      return `THI= ${parseInt(
-        op
-      )} so the Heat Stress is Severe You Are Dead XD`;
-  };
 
   //---//
   const savePositionToState = (position) => {
@@ -132,7 +112,7 @@ export default function Main() {
       console.error(error);
     }
   };
-  //Api pollution
+  //Api pollution Air
   const getAirPolutionApi = async () => {
     try {
       await window.navigator.geolocation.getCurrentPosition(
@@ -151,76 +131,10 @@ export default function Main() {
   const handleOpen = () => {
     setOpen(!open);
   };
-  //Hooks Later
-  const handleProgressAir = (Aqi) => {
-    switch (Aqi) {
-      case 1:
-        setProgress({ ...progress, percentage: 20 });
-        break;
-      case 2:
-        setProgress({
-          ...progress,
-          percentage: 40,
-          color: 'fair',
-          status: 'Moderate Healt Risk',
-        });
-        break;
-      case 3:
-        setProgress({
-          ...progress,
-          percentage: 60,
-          color: 'moderate',
-        });
-        break;
-      case 4:
-        setProgress({
-          ...progress,
-          percentage: 80,
-          color: 'poor',
-          status: 'High Healt Risk',
-        });
-        break;
-      case 5:
-        setProgress({
-          ...progress,
-          percentage: 100,
-          color: 'veryPoor',
-          status: 'Very High Healt Risk',
-        });
-        break;
-    }
-  };
-  const handleUviStatus = (uvi) => {
-    if (uvi <= 2) return setUviStat({ ...uviStat, progress: 20 });
-    if (3 <= uvi && uvi <= 5)
-      return setUviStat({
-        ...uviStat,
-        progress: 40,
-        color: 'fair',
-        status: 'Moderate',
-      });
-    if (6 <= uvi && uvi <= 8)
-      return setUviStat({
-        ...uviStat,
-        progress: 60,
-        color: 'moderate',
-        status: 'High',
-      });
-    if (8 <= uvi && uvi <= 10)
-      return setUviStat({
-        ...uviStat,
-        progress: 80,
-        color: 'poor',
-        status: 'Very High',
-      });
-    if (uvi >= 11)
-      return setUviStat({
-        ...uviStat,
-        progress: 100,
-        color: 'veryPoor',
-        status: 'Extreme',
-      });
-  };
+  // @-custom-hooks
+  const progressAir = useProgressAir(AQI);
+  const uviStat = useUviStatus(parseInt(uvi));
+  //-----//
 
   useEffect(() => {
     getWeatherData();
@@ -231,13 +145,6 @@ export default function Main() {
     };
   }, [lat, lng]);
 
-  useEffect(() => {
-    handleProgressAir(AQI);
-    handleUviStatus(parseInt(uvi));
-    return () => {
-      handleProgressAir, handleUviStatus;
-    };
-  }, [AQI, uvi]);
   return (
     <div className="App-container">
       {hasWeather && (
@@ -336,16 +243,16 @@ export default function Main() {
                     <WavesIcon sx={{ color: grey[700] }} fontSize="medium" />
                   )}
                   title="Air Quality"
-                  info={`${AQI}-${progress.status}`}
+                  info={`${AQI}-${progressAir.status}`}
                   AqiCard
                   renderStatusBar={() => (
                     <>
                       <Box>
                         <ThemeProvider theme={theme}>
                           <LinearProgress
-                            color={progress.color}
+                            color={progressAir.color}
                             variant="determinate"
-                            value={progress.percentage}
+                            value={progressAir.percentage}
                           />
                         </ThemeProvider>
                       </Box>
@@ -419,7 +326,7 @@ export default function Main() {
                   title="Humiditiy"
                   info={`${dataWeather.main.humidity}%`}
                   description={`
-                    ${THI(
+                    ${useTHI(
                       Math.round(dataWeather.main.temp),
                       dataWeather.main.humidity / 100
                     )}
