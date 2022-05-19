@@ -60,6 +60,7 @@ export default function Main() {
   //States
   const [dataWeather, setDataWeather] = useState({});
   const [dataForecast, setDataForecast] = useState([]);
+  const [uvi, setUvi] = useState(0);
   const [localAddress, setLocalAddress] = useState('');
   const [open, setOpen] = useState(false);
   const [AQI, setAQI] = useState(0);
@@ -122,10 +123,11 @@ export default function Main() {
         savePositionToState
       );
       const responseForecast = await fetch(
-        `${API_FORECAST}?lat=${lat}&lon=${lng}&exclude=current,minutely,hourly,alerts&units=metric&appid=${API_KEY}`
+        `${API_FORECAST}?lat=${lat}&lon=${lng}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`
       );
       const forecast = await responseForecast.json();
       setDataForecast(forecast.daily);
+      setUvi(forecast.current.uvi);
     } catch (error) {
       console.error(error);
     }
@@ -231,11 +233,11 @@ export default function Main() {
 
   useEffect(() => {
     handleProgressAir(AQI);
-    hasForecast && handleUviStatus(Math.round(dataForecast[0].uvi));
+    handleUviStatus(parseInt(uvi));
     return () => {
       handleProgressAir, handleUviStatus;
     };
-  }, [AQI, dataForecast]);
+  }, [AQI, uvi]);
   return (
     <div className="App-container">
       {hasWeather && (
@@ -355,7 +357,7 @@ export default function Main() {
                     <WbSunnyIcon sx={{ color: grey[700] }} fontSize="medium" />
                   )}
                   title="UVI"
-                  info={`${parseInt(dataForecast[0].uvi)} ${uviStat.status}`}
+                  info={`${parseInt(uvi)} ${uviStat.status}`}
                   AqiCard
                   renderStatusBar={() => (
                     <>
