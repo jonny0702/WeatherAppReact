@@ -17,6 +17,15 @@
 .background_photo{
     object-fit: contain;
 }
+.Loader--container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(41, 41, 41);
+}
+
 //Desktop
 @media (min-width:1024px) {
     .App-container{
