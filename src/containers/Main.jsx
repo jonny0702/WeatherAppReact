@@ -6,6 +6,7 @@ import Meteorology from '../components/Meteorology';
 import InfoContainer from './InfoContainer';
 import ModelConatiner from './ModelConatiner';
 import MeteorologyItems from '../components/MeteorologyItems';
+import Loader from '../components/Loader';
 //style
 import '../styles/Main.scss';
 import '../styles/weatherState.scss';
@@ -57,12 +58,14 @@ export default function Main() {
       veryPoor: { main: red[700] },
     },
   });
+
   //States
   const [dataWeather, setDataWeather] = useState({});
   const [dataForecast, setDataForecast] = useState([]);
   const [uvi, setUvi] = useState(0);
   const [localAddress, setLocalAddress] = useState('');
   const [open, setOpen] = useState(false);
+  const [load, setLoad] = useState(true);
   const [AQI, setAQI] = useState(0);
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
@@ -88,6 +91,7 @@ export default function Main() {
       const data = await responseWeather.json();
       setDataWeather(data);
       setLocalAddress(data.name);
+      setLoad(!load);
     } catch (error) {
       console.error('API ERROR', error);
     }
@@ -104,6 +108,7 @@ export default function Main() {
       const forecast = await responseForecast.json();
       setDataForecast(forecast.daily);
       setUvi(forecast.current.uvi);
+      setLoad(!load);
     } catch (error) {
       console.error(error);
     }
@@ -119,6 +124,7 @@ export default function Main() {
       `);
       const AQI = await responseAirApi.json();
       setAQI(AQI.list[0].main.aqi);
+      setLoad(!load);
     } catch (error) {
       console.error(error);
     }
@@ -141,7 +147,15 @@ export default function Main() {
       dataWeather, dataForecast;
     };
   }, [lat, lng]);
-
+  console.log(load);
+  //Loader
+  if (load === true) {
+    return (
+      <div className="Loader--container">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div className={`App-container`}>
       {hasWeather && (
