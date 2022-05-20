@@ -25,8 +25,9 @@
 .data-info__title{
     font-size: 1.5rem;
     font-weight: 500;
-    color: rgb(59, 59, 59);
+    color:white ;
 }
+//rgb(59, 59, 59)
 .data-info{
     color: rgb(255, 255, 255);
     font-size: $sub-title-size;
@@ -37,16 +38,17 @@
     font-weight: 300;
     color: white;
 }
+
 .MetorolgyItems__card{
     display: flex;
     justify-content: center;
     width: 16rem;
     height: 16rem;
     gap: 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 3px solid rgba(37, 230, 255, 0.5);
     box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.25), 
-                inset 1px 1px 0px rgba(255, 255, 255, 0.25);;
-    background-color:rgba(255, 255, 255, 0.5);
+                inset 1px 1px 0px rgba(37, 230, 255, 0.25);;
+    background-color:rgba(52, 84, 85, 0.5);
     border-radius: 20px;
 }
 .MetorolgyItems__card--aqi{
@@ -82,4 +84,55 @@
         overflow: auto;
     }
 
+}
+//desktop
+
+@media (min-width: 1024px) {
+    .meteorology__container{
+        width: 80vw;
+        height: fit-content;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 1rem;
+        overflow: hidden;
+    }
+    .MetorolgyItems__card{
+        width: 15rem;
+
+    }
+    .MetorolgyItems__card--aqi{
+        width: 90%; 
+    }
+
+    .data-info{
+        color: rgb(255, 255, 255);
+        font-size: $sub-title-size-dektop;
+        font-weight: 400;
+    }
+    .data-description{
+        font-size:1.5rem;
+        font-weight: 300;
+        color: white;
+    }
+}
+@media (min-width: 1300px) {
+    .meteorology__container{
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        overflow: hidden;
+    }
+}
+@media (min-width: 1300px) {
+    .meteorology__container{
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        overflow: hidden;
+    }
+}
+@media (min-width: 1500px) {
+    .meteorology__container{
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        overflow: hidden;
+    }
 }

@@ -9,14 +9,16 @@
     font-weight: 300;
     color: white;
     border-radius: 20px;
-    // border: solid blue; 
 }
-
+.Forecast--title{
+    font-size: $middle-text-size;
+    margin-left: .5rem;
+}
 .forecast-list{
     display: flex;
     width: 100%;
     gap: 1.6rem;
-    justify-content: start;
+    justify-content: ce;
     box-sizing: border-box;
     justify-self: center;
     z-index: 200;
@@ -27,10 +29,10 @@
     grid-template-rows: repeat(3, .5fr);
     justify-items: center;
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 3px solid rgba(37, 230, 255, 0.5);
     box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.25), 
-                inset 1px 1px 0px rgba(255, 255, 255, 0.25);;
-    background-color:rgba(255, 255, 255, 0.5);
+                inset 1px 1px 0px rgba(37, 230, 255, 0.25);;
+    background-color:rgba(52, 84, 85, 0.5);
 }
 
 .forecast-temperature{
@@ -47,4 +49,36 @@
     .forecast-days__container{
         width: 50rem;
     }
+}
+@media (min-width: 1024px){
+    .forecast-container{
+        display: grid;
+        width: 60%;
+        height: fit-content;
+        margin-left: 1rem;
+        // border: solid purple;
+    }
+    .forecast-list{
+        display: grid;
+        width: auto;
+        height: auto;
+        box-sizing: border-box;
+        grid-template-rows: repeat(2, 12rem);
+        grid-template-columns: repeat(4, 1fr);
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+        overflow: hidden;
+        // border: solid blue;
+    }
+    .forecast-days__container{
+        width: 10rem;
+        height: 10rem;
+    }
+    .Forecast--title{
+        justify-self: center;
+        font-size: $middle-text-size;
+        margin-left: .5rem;
+    }
+
 }

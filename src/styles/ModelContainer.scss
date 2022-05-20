@@ -1,10 +1,19 @@
 .Model__container{
-    position: relative;
     height: 45rem;
     width: 100%;
     bottom: 6rem;
     outline: none;
-    mix-blend-mode: exclusion;
-    // border: 1px solid red ;
     z-index: -100;
+}
+
+//Desktop
+@media (min-width:1024px) {
+    .Model__container{
+        width: 50vw;
+    }
+}
+@media (min-width:1300px) {
+    .Model__container{
+        width: 60vw;
+    }
 }
