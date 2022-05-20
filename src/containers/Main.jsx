@@ -147,7 +147,6 @@ export default function Main() {
       dataWeather, dataForecast;
     };
   }, [lat, lng]);
-  console.log(load);
   //Loader
   if (load === true) {
     return (
