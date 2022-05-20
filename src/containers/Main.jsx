@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 //component
 import WeatherState from '../components/WeatherState';
 import Forecast from '../components/Forecast';
@@ -14,10 +14,10 @@ import '../styles/Forecast.scss';
 import '../styles/InfoContainer.scss';
 import '../styles/ModelContainer.scss';
 //Hooks
-import { useState, useEffect } from 'react';
 import useTHI from '../hooks/useThi';
 import useProgressAir from '../hooks/useProgressAir';
 import useUviStatus from '../hooks/useUviStatus';
+import useScreenMediaQuery from '../hooks/useMediaQuery';
 //mui
 import { Button } from '@mui/material';
 import { grey } from '@mui/material/colors';
@@ -39,9 +39,6 @@ import WaterIcon from '@mui/icons-material/Water';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 //dependecies
 import moment from 'moment';
-// import { a } from '@react-spring/web';
-// import { useDrag } from '@use-gesture/react';
-// import { a, useSpring, config } from '@react-spring/web';
 
 export default function Main() {
   //API
@@ -67,7 +64,6 @@ export default function Main() {
   const [localAddress, setLocalAddress] = useState('');
   const [open, setOpen] = useState(false);
   const [AQI, setAQI] = useState(0);
-
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   //-------//
@@ -134,6 +130,7 @@ export default function Main() {
   // @-custom-hooks
   const progressAir = useProgressAir(AQI);
   const uviStat = useUviStatus(parseInt(uvi));
+  const { isMatched: desktop } = useScreenMediaQuery(1024);
   //-----//
 
   useEffect(() => {
@@ -146,7 +143,7 @@ export default function Main() {
   }, [lat, lng]);
 
   return (
-    <div className="App-container">
+    <div className={`App-container`}>
       {hasWeather && (
         <div
           className="img-background"
@@ -161,7 +158,7 @@ export default function Main() {
           />
         </div>
       )}
-      {
+      <div className={`WeatherState-Model--container`}>
         <WeatherState isOpen={open}>
           {hasWeather && hasAqi && (
             <>
@@ -181,41 +178,50 @@ export default function Main() {
             </>
           )}
         </WeatherState>
-      }
-      <div
-        style={{
-          filter: `${open ? 'blur(3px)' : 'blur(0)'}`,
-          transition: 'all ease-in 1s',
-        }}
-      >
-        <ModelConatiner />
-      </div>
-      <InfoContainer isOpen={open}>
         <div
-          className="buttom__display--container"
-          onClick={() => handleOpen()}
+          style={
+            desktop
+              ? null
+              : {
+                  filter: `${open ? 'blur(3px)' : 'blur(0)'}`,
+                  transition: 'all ease-in 1s',
+                }
+          }
+          className="Model-container__div"
         >
-          <Button
-            size="medium"
-            className="Button"
-            sx={{
-              color: grey[50],
-              borderColor: grey[60],
-              borderRadius: 3,
-              border: 1,
-            }}
-          >
-            <ExpandLessIcon
-              sx={{ color: grey[50] }}
-              fontSize="large"
-              style={{
-                transform: `${open ? 'rotate(180deg)' : 'rotate(0)'}`,
-                transition: 'all 1s',
-              }}
-            />
-          </Button>
+          <ModelConatiner />
         </div>
+      </div>
+
+      <InfoContainer isOpen={open} desktop={desktop}>
+        {desktop ? null : (
+          <div
+            className="buttom__display--container"
+            onClick={() => handleOpen()}
+          >
+            <Button
+              size="medium"
+              className="Button"
+              sx={{
+                color: grey[50],
+                borderColor: grey[60],
+                borderRadius: 3,
+                border: 1,
+              }}
+            >
+              <ExpandLessIcon
+                sx={{ color: grey[50] }}
+                fontSize="large"
+                style={{
+                  transform: `${open ? 'rotate(180deg)' : 'rotate(0)'}`,
+                  transition: 'all 1s',
+                }}
+              />
+            </Button>
+          </div>
+        )}
         <Forecast>
+          <span className="Forecast--title">Forecast</span>
           {hasForecast && (
             <ul className="forecast-list">
               {dataForecast.map((forecast) => {
@@ -227,7 +233,7 @@ export default function Main() {
                     <div className="img-container">
                       <img
                         src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
-                        alt={forecast.weather[0].description}
+                        alt="Icons"
                       />
                     </div>
                     <span className="forecast-temperature">
@@ -246,7 +252,7 @@ export default function Main() {
               <>
                 <MeteorologyItems
                   renderIcon={() => (
-                    <WavesIcon sx={{ color: grey[700] }} fontSize="medium" />
+                    <WavesIcon sx={{ color: grey[50] }} fontSize="medium" />
                   )}
                   title="Air Quality"
                   info={`${AQI}-${progressAir.status}`}
@@ -267,7 +273,7 @@ export default function Main() {
                 />
                 <MeteorologyItems
                   renderIcon={() => (
-                    <WbSunnyIcon sx={{ color: grey[700] }} fontSize="medium" />
+                    <WbSunnyIcon sx={{ color: grey[50] }} fontSize="medium" />
                   )}
                   title="UVI"
                   info={`${parseInt(uvi)} ${uviStat.status}`}
@@ -287,7 +293,7 @@ export default function Main() {
                 />
                 <MeteorologyItems
                   renderIcon={() => (
-                    <UmbrellaIcon sx={{ color: grey[700] }} fontSize="medium" />
+                    <UmbrellaIcon sx={{ color: grey[50] }} fontSize="medium" />
                   )}
                   title="Rainfall"
                   info={`${dataForecast[0].rain} mm in last hour`}
@@ -295,7 +301,7 @@ export default function Main() {
                 <MeteorologyItems
                   renderIcon={() => (
                     <ThermostatIcon
-                      sx={{ color: grey[700] }}
+                      sx={{ color: grey[50] }}
                       fontSize="medium"
                     />
                   )}
@@ -326,7 +332,7 @@ export default function Main() {
                 />
                 <MeteorologyItems
                   renderIcon={() => (
-                    <WaterIcon sx={{ color: grey[700] }} fontSize="medium" />
+                    <WaterIcon sx={{ color: grey[50] }} fontSize="medium" />
                   )}
                   title="Humiditiy"
                   info={`${dataWeather.main.humidity}%`}
@@ -339,7 +345,7 @@ export default function Main() {
                 />
                 <MeteorologyItems
                   renderIcon={() => (
-                    <SpeedIcon sx={{ color: grey[700] }} fontSize="medium" />
+                    <SpeedIcon sx={{ color: grey[50] }} fontSize="medium" />
                   )}
                   title="Presure"
                   info={`${dataWeather.main.pressure} mbar`}
@@ -352,7 +358,7 @@ export default function Main() {
                 />
                 <MeteorologyItems
                   renderIcon={() => (
-                    <AirIcon sx={{ color: grey[700] }} fontSize="medium" />
+                    <AirIcon sx={{ color: grey[50] }} fontSize="medium" />
                   )}
                   title="Wind Speed"
                   info={`${dataWeather.wind.speed} Km`}

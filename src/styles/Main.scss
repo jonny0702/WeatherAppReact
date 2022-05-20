@@ -6,6 +6,7 @@
     overflow: hidden;
     z-index: 200;
 }
+
 .img-background{
  position: fixed;
  height: 100%;
@@ -15,4 +16,12 @@
 }
 .background_photo{
     object-fit: contain;
+}
+//Desktop
+@media (min-width:1024px) {
+    .App-container{
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
 }

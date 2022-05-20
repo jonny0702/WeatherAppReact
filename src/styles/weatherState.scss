@@ -1,4 +1,7 @@
 @import 'vars';
+.WeatherState-Model--container{
+    margin-top: 14.5rem;
+}
 
 .weatherStatus-container{
     display: flex;
@@ -7,7 +10,6 @@
     align-items: center;
     justify-items: center;
     width: 99vw;
-    margin-top: 15rem;
     font-family:'Roboto', sans-serif;
     font-weight: 100;
     color: white;
@@ -50,4 +52,23 @@
     margin-top: 1rem;
     border: .5px solid white;
     border-radius: 10px
+}
+@media (min-width: 1024px) {
+    .WeatherState-Model--container{
+        display:flex;
+        justify-content: center;
+        align-self: center;
+        width: 100vw;
+        height: 31rem;
+        gap: 2rem;
+        margin: 0;
+    }
+    .weatherStatus-container{
+        width: auto;
+    }
+}
+@media (min-width:1300px) {
+    .weatherStatus-container{
+        width: 50vw;
+    }
 }

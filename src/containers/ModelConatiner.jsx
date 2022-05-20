@@ -3,14 +3,13 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import HoseModel from '../components/HoseModel.js';
-import moment from 'moment';
 
 const Controls = () => {
   const {
     camera,
     gl: { domElement },
   } = useThree();
-  return <OrbitControls args={[camera, domElement]} />;
+  return <OrbitControls args={[camera, domElement]} enableDamping />;
 };
 const CameraHelper = () => {
   const camera = new THREE.PerspectiveCamera(25, 100 / 100, 0.1, 100);
@@ -28,7 +27,7 @@ const PointLightHelper = () => {
     </group>
   );
 };
-const Animation = (props) => {
+const Animation = () => {
   const myPointLight = useRef();
   const myModel = useRef();
 
@@ -64,7 +63,6 @@ const ModelConatiner = () => {
           }}
         >
           <Animation />
-          {/* <CameraHelper /> */}
           <Controls />
         </Canvas>
       </Suspense>
