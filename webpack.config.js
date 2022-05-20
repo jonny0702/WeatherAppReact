@@ -1,11 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+
 module.exports = {
-  entry: path.join(__dirname, 'src/index.js'),
+  entry: './src/index.js',
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'main.bundle.js',
   },
 
@@ -36,16 +37,9 @@ module.exports = {
     ],
   },
   devServer: {
-    static: path.join(__dirname, 'public'),
+    static: path.resolve(__dirname, 'public'),
     port: 3000,
     open: true,
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-      filename: './index.html',
-      minify: false,
-    }),
-    new Dotenv(),
-  ],
+  plugins: [new Dotenv()],
 };
