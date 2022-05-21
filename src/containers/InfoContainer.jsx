@@ -14,20 +14,28 @@ const InfoContainer = (props) => {
       </div>
       <style jsx>
         {`
-          @media (min-height: 667px) {
+          @media (min-height: 580px) {
             .infoContainer__container {
-              transform: translateY(60%);
+              transform: translateY(52.5%);
             }
             .infoContainer__container--open {
-              transform: translateY(-32.5%);
+              transform: translateY(-36.5%);
+            }
+          }
+          @media (min-height: 640px) {
+            .infoContainer__container {
+              transform: translateY(56.5%);
+            }
+            .infoContainer__container--open {
+              transform: translateY(-33.5%);
             }
           }
           @media (min-height: 800px) {
             .infoContainer__container {
-              transform: translateY(17%);
+              transform: translateY(13%);
             }
             .infoContainer__container--open {
-              transform: translateY(-77.5%);
+              transform: translateY(-80%);
             }
           }
         `}
