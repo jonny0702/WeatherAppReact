@@ -35,7 +35,7 @@ const InfoContainer = (props) => {
               transform: translateY(62.5%);
             }
             .infoContainer__container--open {
-              transform: translateY(-30.5%);
+              transform: translateY(-28.5%);
             }
           }
           @media (min-height: 750px) {
@@ -43,7 +43,7 @@ const InfoContainer = (props) => {
               transform: translateY(65.5%);
             }
             .infoContainer__container--open {
-              transform: translateY(-27.5%);
+              transform: translateY(-26.5%);
             }
           }
           @media (min-height: 800px) {
