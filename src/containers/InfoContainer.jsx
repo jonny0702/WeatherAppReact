@@ -30,12 +30,36 @@ const InfoContainer = (props) => {
               transform: translateY(-33.5%);
             }
           }
+          @media (min-height: 700px) {
+            .infoContainer__container {
+              transform: translateY(62.5%);
+            }
+            .infoContainer__container--open {
+              transform: translateY(-30.5%);
+            }
+          }
+          @media (min-height: 750px) {
+            .infoContainer__container {
+              transform: translateY(65.5%);
+            }
+            .infoContainer__container--open {
+              transform: translateY(-27.5%);
+            }
+          }
           @media (min-height: 800px) {
             .infoContainer__container {
               transform: translateY(13%);
             }
             .infoContainer__container--open {
               transform: translateY(-80%);
+            }
+          }
+          @media (min-height: 830px) {
+            .infoContainer__container {
+              transform: translateY(16.5%);
+            }
+            .infoContainer__container--open {
+              transform: translateY(-77%);
             }
           }
         `}
