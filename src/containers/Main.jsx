@@ -20,7 +20,7 @@ import useProgressAir from '../hooks/useProgressAir';
 import useUviStatus from '../hooks/useUviStatus';
 import useScreenMediaQuery from '../hooks/useMediaQuery';
 //mui
-import { Button } from '@mui/material';
+import { Button, useMediaQuery } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { red } from '@mui/material/colors';
 import { teal } from '@mui/material/colors';
@@ -64,7 +64,7 @@ export default function Main() {
   const [dataForecast, setDataForecast] = useState([]);
   const [uvi, setUvi] = useState(0);
   const [localAddress, setLocalAddress] = useState('');
-  const [open, setOpen] = useState(false);
+  const [isOpen, handleDisplayForecast] = useState(false);
   const [load, setLoad] = useState(true);
   const [AQI, setAQI] = useState(0);
   const [lat, setLat] = useState(0);
@@ -131,12 +131,13 @@ export default function Main() {
   };
 
   const handleOpen = () => {
-    setOpen(!open);
+    handleDisplayForecast(!isOpen);
   };
   // @-custom-hooks
   const progressAir = useProgressAir(AQI);
   const uviStat = useUviStatus(parseInt(uvi));
   const { isMatched: desktop } = useScreenMediaQuery(1024);
+
   //-----//
 
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function Main() {
         <div
           className="img-background"
           style={{
-            filter: `${open ? 'blur(2px)' : 'blur(0)'}`,
+            filter: `${isOpen ? 'blur(2px)' : 'blur(0)'}`,
             transition: 'all ease-in 1s',
           }}
         >
@@ -172,7 +173,7 @@ export default function Main() {
         </div>
       )}
       <div className={`WeatherState-Model--container`}>
-        <WeatherState isOpen={open}>
+        <WeatherState isOpen={isOpen}>
           {hasWeather && hasAqi && (
             <>
               <div className="location-container">
@@ -196,7 +197,7 @@ export default function Main() {
             desktop
               ? null
               : {
-                  filter: `${open ? 'blur(3px)' : 'blur(0)'}`,
+                  filter: `${isOpen ? 'blur(3px)' : 'blur(0)'}`,
                   transition: 'all ease-in 1s',
                 }
           }
@@ -206,7 +207,7 @@ export default function Main() {
         </div>
       </div>
 
-      <InfoContainer isOpen={open} desktop={desktop}>
+      <InfoContainer isOpen={isOpen} desktop={desktop}>
         {desktop ? null : (
           <div
             className="buttom__display--container"
@@ -226,7 +227,7 @@ export default function Main() {
                 sx={{ color: grey[50] }}
                 fontSize="large"
                 style={{
-                  transform: `${open ? 'rotate(180deg)' : 'rotate(0)'}`,
+                  transform: `${isOpen ? 'rotate(180deg)' : 'rotate(0)'}`,
                   transition: 'all 1s',
                 }}
               />

@@ -1,11 +1,15 @@
 .Model__container{
-    height: 45rem;
+    height: 40rem;
     width: 100%;
     bottom: 6rem;
     outline: none;
     z-index: -100;
 }
-
+@media (min-height: 667px) {
+    .Model__container{
+        height: 37rem ;
+    }
+}
 //Desktop
 @media (min-width:1024px) {
     .Model__container{
