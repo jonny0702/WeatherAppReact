@@ -156,6 +156,7 @@ export default function Main() {
       </div>
     );
   }
+  console.log(dataForecast);
   return (
     <div className={`App-container`}>
       {hasWeather && (
@@ -246,7 +247,7 @@ export default function Main() {
                     </span>
                     <div className="img-container">
                       <img
-                        src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
+                        src={`https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
                         alt="Icons"
                       />
                     </div>
