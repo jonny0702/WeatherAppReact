@@ -6,8 +6,7 @@ const useTHI = (temp, rh) => {
     return `THI= ${parseInt(op)} so the Heat Stress is Mild`;
   if (80 >= op && op <= 89)
     return `THI= ${parseInt(op)} so the Heat Stress is Moderate`;
-  if (90 >= op)
-    return `THI= ${parseInt(op)} so the Heat Stress is Severe You Are Dead XD`;
+  if (90 >= op) return `THI= ${parseInt(op)} so the Heat Stress is Severe`;
 };
 
 export default useTHI;
