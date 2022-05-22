@@ -156,7 +156,6 @@ export default function Main() {
       </div>
     );
   }
-  console.log(dataForecast);
   return (
     <div className={`App-container`}>
       {hasWeather && (

@@ -53,6 +53,7 @@
     border: .5px solid white;
     border-radius: 10px
 }
+
 @media (max-height: 667px) {
     .WeatherState-Model--container{
         margin-top: 2rem;
@@ -83,6 +84,7 @@
     }
 
 }
+
 @media (min-width: 1024px) {
     .WeatherState-Model--container{
         display:flex;
